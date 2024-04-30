@@ -1,0 +1,10 @@
+
+export const OTP_REQUEST = 'OTP_REQUEST';
+export const OTP_SUCCESS = 'OTP_SUCCESS';
+export const OTP_FAILURE = 'OTP_FAILURE';
+
+export const TRIP_REQUEST = 'TRIP_REQUEST';
+export const TRIP_SUCCESS = 'TRIP_SUCCESS';
+export const TRIP_FAILURE = 'TRIP_FAILURE';
+
+export const SET_PASSENGER_COUNT = 'SET_PASSENGER_COUNT';

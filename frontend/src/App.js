@@ -1,15 +1,21 @@
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
-import Navbar from './Components/Navbar/Navbar';
-import Depature from './Components/Depature/Depature';
+import Home from './Home/Home';
+function App() {
+  const route = createBrowserRouter([
+      {
+        path:"/flights",
+        element:<Home/>
+      }
+    ])
+return (
+  <div>
+    <RouterProvider   router={route}>
+<Router>
 
-const App = () => (
-  <Router>
-    <div>
-      <Navbar />
-      <Depature/>
-  </div>
-  </Router>
+</Router>
+</RouterProvider>
+</div>
 );
-
+}
 export default App;

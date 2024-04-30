@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { TextField, Button, Card, CardContent, Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import '../Depature/Depature.css';
-import Passengers from './Passengers'; 
+import Passengers from './Passengers';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useDispatch, useSelector } from 'react-redux';
+import { userTripDetails } from '../../redux/action';
 
 const DepartureForm = () => {
+    const dispatch = useDispatch();
+    const passengersData = useSelector((state) => state.passengers);
+    // console.log("=========>", passengersData)
+
     const [showFormOptions, setshowFormOptions] = useState(false);
     const [showFormCards, setshowFormCards] = useState(false);
     const [showToOptions, setshowToOptions] = useState(false);
+    const [selectedDate, setSelectedDate] = useState('');
     const formOptions = ["Chennai", "Madurai", "Palani"];
     const [selectedFormOption, setselectedFormOption] = useState('');
     const [selectedToOption, setselectedToOption] = useState('');
     const [searchValue, setSearchValue] = useState('');
     const [showPassengers, setShowPassengers] = useState(false);
+    const passengersRef = useRef(null);
 
     const handleFromClick = () => {
         setshowFormOptions(!showFormOptions);
-        setshowFormCards(!showFormCards)
+        setshowFormCards(!showFormCards);
     };
+
     const handleToClick = () => {
         setshowToOptions(!showToOptions);
     };
+
     const handleFormOptionSelect = (option) => {
         setselectedFormOption(option);
         setshowFormOptions(false);
     };
+
     const handleToOptionSelect = (option) => {
         setselectedToOption(option);
         setshowToOptions(false);
@@ -33,6 +45,43 @@ const DepartureForm = () => {
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
     };
+
+    const handleAddPassengers = () => {
+        setShowPassengers(true);
+    };
+
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+    };
+
+    const handlePassengersChange = (event) => {
+        const selectedValue = event.target.value;
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const formData = {
+            selectedFormOption,
+            selectedToOption,
+            selectedDate,
+            passengersData
+        };
+        console.log("Form submitted with data:", formData);
+        dispatch(userTripDetails(formData));
+    };
+
+    const handleClickOutside = (event) => {
+        if (passengersRef.current && !passengersRef.current.contains(event.target)) {
+            setShowPassengers(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const filteredOptions = formOptions.filter(option =>
         option.toLowerCase().includes(searchValue.toLowerCase())
@@ -44,7 +93,10 @@ const DepartureForm = () => {
                 Book Domestic and International Flight Tickets
             </Typography>
 
-            <Card style={{ maxWidth: '50%', margin: 'auto', marginTop: '10px', borderRadius: '10px', padding: '39px 242px 176px 46px', position: 'relative' }}>
+            <Card style={{
+                maxWidth: '83%', margin: 'auto', marginTop: '10px', borderRadius: '10px',
+                padding: '40px 60px 185px 44px', position: 'relative', boxSizing: 'border-box', zIndex: 1
+            }}>
                 <RadioGroup style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="One-way"
@@ -55,8 +107,8 @@ const DepartureForm = () => {
                     <FormControlLabel value="Multi-city" control={<Radio />} label="Multi-city" />
                 </RadioGroup>
                 <CardContent>
-                    <form style={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
-                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <form style={{ display: 'flex', flexDirection: 'row', gap: '30px' }} onSubmit={handleSubmit}>
+                        <div style={{ position: 'relative' }}>
                             <TextField
                                 label="From"
                                 variant="outlined"
@@ -76,7 +128,7 @@ const DepartureForm = () => {
                                 </div>
                             )}
                         </div>
-                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                        <div style={{ position: 'relative' }}>
                             <TextField label="To" variant="outlined"
                                 onFocus={handleToClick}
                                 onBlur={() => setTimeout(() => setshowToOptions(false), 200)}
@@ -98,17 +150,21 @@ const DepartureForm = () => {
                             type="date"
                             InputLabelProps={{ shrink: true }}
                             variant="outlined"
+                            value={selectedDate}
+                            onChange={handleDateChange}
                         />
-                         <TextField
-                        label="Travellers & Class"
-                        variant="outlined"
-                        onFocus={() => setShowPassengers(true)} // Show Passengers component on focus
-                        onBlur={() => setShowPassengers(false)} // Hide Passengers component on blur
-                    />
-                    {showPassengers && <Passengers />}
-                        {/* <Button variant="contained" color="primary" type="submit">
+                        {showPassengers ? (
+                            <div ref={passengersRef}>
+                                <Passengers handlePassengersChange={handlePassengersChange} />
+                            </div>
+                        ) : (
+                            <Button variant="outlined" color="primary" onClick={handleAddPassengers}>
+                                {`${passengersData.adults} Adults • ${passengersData.children} Children • ${passengersData.infants} Infants`}
+                            </Button>
+                        )}
+                        <Button variant="contained" color="primary" type="submit" sx={{ position: 'absolute', left: '580px', bottom: '0px' }}>
                             SEARCH FLIGHTS
-                        </Button> */}
+                        </Button>
                     </form>
                 </CardContent>
             </Card>

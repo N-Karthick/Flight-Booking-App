@@ -12,6 +12,7 @@ import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 
+
 const Navbar = () => {
   const [showContent, setShowContent] = useState(false);
 
@@ -27,10 +28,10 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <ul>
-          <li><NavLink exact to="/" className="activeHead">goibibo</NavLink></li>
+          <li><NavLink exact to="/flights" className="activeHead">goibibo</NavLink></li>
           <li><NavLink to="/flights" className="active flight"><FlightTakeoffOutlinedIcon />Flights</NavLink></li>
           <li><NavLink to="/hotels" className="active flight"><AddHomeWorkOutlinedIcon />Hotels</NavLink></li>
-          <li><NavLink to="/trains" className="active flight"><TrainIcon />Trains</NavLink></li>
+          <li><NavLink to="/trains" className="active flight"><TrainIcon /> Trains</NavLink></li>
           <li><NavLink to="/cabs" className="active flight"><LocalTaxiIcon />Cabs</NavLink></li>
           <li><NavLink to="/bus" className="active flight"><AirportShuttleIcon />Bus</NavLink></li>
           <li><NavLink to="/holidays" className="active flight">Holidays</NavLink></li>

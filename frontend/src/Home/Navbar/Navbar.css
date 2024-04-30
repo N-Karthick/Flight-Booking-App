@@ -48,9 +48,16 @@
 
 .Login-btn {
   position: relative;
-  left: 16px;
+  left: 35px;
   font-size: 19px;
   text-decoration: none;
+}
+
+.Login-btn .Icon{
+  position: absolute;
+  right: 143px;
+  bottom: -4px;
+  font-size: 2rem;
 }
 
 .Card {
@@ -67,4 +74,8 @@
 
 .Card > * {
   margin-bottom: 10px;
+}
+
+.Icon{
+  font-size: 500px;
 }
