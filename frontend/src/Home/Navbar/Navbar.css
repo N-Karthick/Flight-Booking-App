@@ -38,12 +38,13 @@
 
 .Login-bar {
   position: absolute;
-  top: 2%;
+  top: 4%;
   left: 80%;
   border: 1px solid rgb(67, 42, 206);
   border-radius: 10px;
   padding: 0.5%;
   text-align: center;
+  background-color: cornsilk;
 }
 
 .Login-btn {
@@ -78,4 +79,9 @@
 
 .Icon{
   font-size: 500px;
+}
+
+.Loginlink{
+  text-decoration: none;
+  color: black;
 }

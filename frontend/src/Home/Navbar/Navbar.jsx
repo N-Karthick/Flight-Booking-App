@@ -21,7 +21,9 @@ const Navbar = () => {
   };
 
   const handleMouseLeave = () => {
-    setShowContent(false);
+    setTimeout(() => {
+      setShowContent(false);
+    }, 2000);
   };
 
   return (
@@ -38,8 +40,8 @@ const Navbar = () => {
           {/* <li><NavLink to="/forex" className="active flight">Forex</NavLink></li> */}
           <li><NavLink to="/manage-booking" className="active flight">Manage Booking</NavLink></li>
           
-          <div className='Login-bar' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <Card className="Card" style={{ display: showContent ? 'block' : 'none' }}>
+          <div className='Login-bar' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >  {/*onMouseLeave={handleMouseLeave}*/}
+            <Card className="Card" style={{ display: showContent ? 'block' : 'none',backgroundColor:'ghostwhite',zIndex:10 }}>
               <CardContent>
                 <Typography variant="h5" component="div">
                 Hey Traveller 
@@ -47,15 +49,19 @@ const Navbar = () => {
                 <Typography variant="body2" color="text.secondary">
                   Login or Signup to access your account.
                 </Typography>
-                <Button variant="contained" color="primary">
-                  Login / Signup
+                <Button sx={{border: '3px solid #e29c1a', backgroundColor: 'blue'}} >
+                  <NavLink to="/Login" className="Loginlink">  Login </NavLink>
+                </Button><br/><br/>
+                <Button sx={{border: '3px solid #e29c1a' , backgroundColor: 'blue'}} >
+                  <NavLink to="/Signup" className="Loginlink"> SignUp </NavLink>
+                
                 </Button><br/>
                 <Typography variant="h6" component="div">
                 Offers
                 </Typography>
               </CardContent>
             </Card>
-            <li><NavLink to="/LoginSignUp" className="Login-btn"><AccountCircleTwoToneIcon className="Icon" /> LOGIN / SIGNUP</NavLink></li>
+            <li className="Login-btn"><AccountCircleTwoToneIcon className="Icon" /> LOGIN / SIGNUP</li>
           </div>
         </ul>
       </nav>
