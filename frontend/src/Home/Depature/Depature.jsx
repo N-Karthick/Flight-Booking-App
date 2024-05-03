@@ -107,7 +107,7 @@ const DepartureForm = () => {
                     <FormControlLabel value="Multi-city" control={<Radio />} label="Multi-city" />
                 </RadioGroup>
                 <CardContent>
-                    <form style={{ display: 'flex', flexDirection: 'row', gap: '30px' }} onSubmit={handleSubmit}>
+                    <form style={{ display: 'flex', flexDirection: 'row', gap: '30px',height:'100px' }} onSubmit={handleSubmit}>
                         <div style={{ position: 'relative' }}>
                             <TextField
                                 label="From"
@@ -158,15 +158,20 @@ const DepartureForm = () => {
                                 <Passengers handlePassengersChange={handlePassengersChange} />
                             </div>
                         ) : (
-                            <Button variant="outlined" color="primary" onClick={handleAddPassengers}>
+                            <Button variant="outlined" color="primary" onClick={handleAddPassengers} > 
                                 {`${passengersData.adults} Adults • ${passengersData.children} Children • ${passengersData.infants} Infants`}
                             </Button>
                         )}
+
                         <Button variant="contained" color="primary" type="submit" sx={{ position: 'absolute', left: '580px', bottom: '0px' }}>
                             SEARCH FLIGHTS
                         </Button>
                     </form>
                 </CardContent>
+                <CardContent style={{ width:'100%', backgroundColor: 'black', height: '150px'
+                 }}>
+
+                        </CardContent>
             </Card>
         </div>
     );

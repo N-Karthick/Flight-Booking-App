@@ -1,60 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOtp, userSigninDetails } from '../../redux/action';
-import { Alert, AlertTitle } from '@mui/material';
-import '../Signup/Signup.css'
+import { Alert } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import '../Signup/Signup.css';
 
 const Signup = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
-  
+  const error = useSelector((state) => state.error);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [showOtpInput, setShowOtpInput] = useState(false);
   const [otp, setOtp] = useState('');
-  const [showErrorAlert, setShowErrorAlert] = useState(true);
-  const navigate = useNavigate();
-  const error = useSelector((state) => state.error);
-  // const userDetails = useSelector((state) => state.userDetails);
-  // console.log("userdetails->",userDetails)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
 
-  const handleSubmit = async (e) => { 
+  const handleVerify = async () => {
+    if (!name || !email || !phone || !password) {
+      setShowErrorAlert(true);
+      setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000);
+    } else {
+      dispatch(getOtp({ email, password }));
+      setOtpSent(true);
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 2000);
+    }
+  };
+
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (!otp) {
       setShowErrorAlert(true);
-      return;
+      setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000);
     } else {
-      setShowErrorAlert(false);
+      dispatch(
+        userSigninDetails({
+          name,
+          email,
+          phone,
+          password,
+          otp,
+        })
+      );
     }
-    dispatch(userSigninDetails({
-      name,
-      email,
-      phone,
-      password,
-      otp,
-    }));
-    
-    {error && <h1 className="error-message">{error}</h1>}
-    // navigate('/flights'); 
-  };
-
-  const sendOTP = async (e) => {
-    e.preventDefault();
-    //   if (!name || !email || !phone || !password) {
-    //   alert('All fields are required.');
-    //   return;
-    // }
-    dispatch(getOtp({
-       email,
-      password
-        }));
-        setShowOtpInput(true);
-        
-            {error && <h1 className="error-message">{error}</h1>}
-    // navigate('/userprofile'); 
   };
 
   return (
@@ -62,8 +61,8 @@ const Signup = () => {
       <div className="signup-header">
         <h2>Sign Up</h2>
       </div>
-      <div className="signup-form">
-        <form onSubmit={showOtpInput ? sendOTP : handleSubmit}>
+      <div className="signup-form" style={{ backgroundImage: 'linear-gradient(#ffffff, #f3eeee4d, #a9a4a4, #000' }}>
+        <form onSubmit={handleSignup}>
           <label htmlFor="name">Name</label>
           <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" />
 
@@ -76,7 +75,13 @@ const Signup = () => {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" />
 
-          {showOtpInput && (
+          {!otpSent && (
+            <button type="button" onClick={handleVerify} className="submit-btn">
+              Verify
+            </button>
+          )}
+
+          {otpSent && (
             <div className="form-group">
               <label htmlFor="otp">OTP</label>
               <input
@@ -86,26 +91,34 @@ const Signup = () => {
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="Enter the OTP"
               />
-              
-        {error && <h1 className="error-message">{error}</h1>}
-              {/* {showErrorAlert && <Alert severity="error"><AlertTitle>Error</AlertTitle>Please enter OTP.</Alert>} */}
+              {error && <h1 className="error-message">{error}</h1>}
             </div>
           )}
-          {!showOtpInput && (
-            <button type="button" onClick={sendOTP} className="submit-btn">
-              Verify
-            </button>
-          )}
 
-          {showOtpInput && (
-            <button type="submit" onClick={handleSubmit} className="signup-submit" disabled={loading}>
-              {loading ? 'Signing Up...' : 'Sign Up'}
-            </button>
-          )}
+          {otpSent && <button type="submit" className="signup-submit" disabled={loading || !otpSent}>
+            {loading ? 'Signing Up...' : 'Sign Up'}
+          </button>}
         </form>
         <div className="login-link">
           <p>Already have an account? <Link to="/login">Login here</Link></p>
         </div>
+        {(showSuccessMessage && !showErrorAlert) && (
+          <Alert
+            icon={<CheckIcon fontSize="inherit" />}
+            sx={{ zIndex: 10, display: 'flex', position: 'absolute', left: '80px', bottom: '520px' }}
+            severity="success"
+          >
+            OTP Sent to Email Successfully.
+          </Alert>
+        )}
+        {showErrorAlert && (
+          <Alert
+            sx={{ zIndex: 10, display: 'flex', position: 'absolute', left: '80px', bottom: '420px' }}
+            severity="warning"
+          >
+            All Fields are Required
+          </Alert>
+        )}
       </div>
     </div>
   );

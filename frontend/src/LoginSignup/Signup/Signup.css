@@ -1,9 +1,10 @@
+
 .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 50rem;
-    background-color: #575151;
+    /* min-height: 50rem; */
+    /* background-color: #8d6464; */
   }
   
   .signup-header {
@@ -24,7 +25,7 @@
   .signup-form {
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgb(0 0 0 / 65%);
     padding: 20px;
     width: 90%;
     max-width: 400px; 
@@ -68,6 +69,7 @@
   .login-link {
     margin-top: 10px;
     text-align: center;
+    color: white;
   }
   
   .login-link p {
