@@ -31,14 +31,14 @@ const Navbar = () => {
       <nav className="navbar">
         <ul>
           <li><NavLink exact to="/flights" className="activeHead">goibibo</NavLink></li>
-          <li><NavLink to="/flights" className="active flight"><FlightTakeoffOutlinedIcon />Flights</NavLink></li>
-          <li><NavLink to="/hotels" className="active flight"><AddHomeWorkOutlinedIcon />Hotels</NavLink></li>
-          <li><NavLink to="/trains" className="active flight"><TrainIcon /> Trains</NavLink></li>
-          <li><NavLink to="/cabs" className="active flight"><LocalTaxiIcon />Cabs</NavLink></li>
-          <li><NavLink to="/bus" className="active flight"><AirportShuttleIcon />Bus</NavLink></li>
+          <li><NavLink to="/flights" className="active flight"><FlightTakeoffOutlinedIcon sx={{ fontSize:'35px',marginRight:'10px'}}/>Flights</NavLink></li>
+          <li><NavLink to="/hotels" className="active flight"><AddHomeWorkOutlinedIcon sx={{ fontSize:'35px',marginRight:'10px'}}/>Hotels</NavLink></li>
+          <li><NavLink to="/trains" className="active flight"><TrainIcon sx={{ fontSize:'35px',marginRight:'10px'}} /> Trains</NavLink></li>
+          <li><NavLink to="/cabs" className="active flight"><LocalTaxiIcon sx={{ fontSize:'35px',marginRight:'10px'}} />Cabs</NavLink></li>
+          <li><NavLink to="/bus" className="active flight"><AirportShuttleIcon sx={{ fontSize:'35px',marginRight:'10px'}} />Bus</NavLink></li>
           <li><NavLink to="/holidays" className="active flight">Holidays</NavLink></li>
           {/* <li><NavLink to="/forex" className="active flight">Forex</NavLink></li> */}
-          <li><NavLink to="/manage-booking" className="active flight">Manage Booking</NavLink></li>
+          {/* <li><NavLink to="/manage-booking" className="active flight">Manage Booking</NavLink></li> */}
           
           <div className='Login-bar' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >  {/*onMouseLeave={handleMouseLeave}*/}
             <Card className="Card" style={{ display: showContent ? 'block' : 'none',backgroundColor:'ghostwhite',zIndex:10 }}>

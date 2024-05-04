@@ -5,6 +5,7 @@ import {
   TRIP_REQUEST, TRIP_SUCCESS, TRIP_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
   SET_PASSENGER_COUNT,
+  SET_TRIP_DETAILS,
   SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE
 } from './actionTypes'
 
@@ -31,6 +32,11 @@ const loginRequest = () => ({ type: LOGIN_REQUEST });
 export const setPassengerCount = (passengerCounts) => ({
   type: SET_PASSENGER_COUNT,
   payload: passengerCounts,
+});
+
+export const setTripDetails = (tripDetails) => ({
+  type: SET_TRIP_DETAILS,
+  payload: tripDetails,
 });
 
 export const userTripDetails = (credentials) => {

@@ -3,7 +3,7 @@ import {
   TRIP_REQUEST, TRIP_SUCCESS, TRIP_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
   SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-  SET_PASSENGER_COUNT,
+  SET_PASSENGER_COUNT,SET_TRIP_DETAILS
 
 } from './actionTypes'
 
@@ -11,6 +11,7 @@ const initialState = {
   users: [],
   error: null,
   userTripDetails: [],
+  SelectedTripDetails:[],
   loginDetails: [],
   userDetails: [],
   passengers: {
@@ -60,6 +61,11 @@ const userTrip = (state = initialState, action) => {
       return {
         ...state,
         passengers: action.payload,
+      } 
+      case SET_TRIP_DETAILS:
+      return {
+        ...state,
+        SelectedTripDetails: action.payload,
       }
 
 

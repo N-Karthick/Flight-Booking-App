@@ -31,6 +31,7 @@ app.post('/tripdetails', async (req, res) => {
         date: selectedDate,
         passengersData: passengersData
     };
+    console.log("Trip details",storedResult)
     res.status(201).json({ message: 'Trip details stored successfully', trip: storedResult });
 });
 

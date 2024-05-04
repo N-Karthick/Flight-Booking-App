@@ -5,14 +5,16 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import Passengers from './Passengers';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch, useSelector } from 'react-redux';
-import { userTripDetails } from '../../redux/action';
+import { setTripDetails, userTripDetails } from '../../redux/action';
 import backgroundImage from '../../Assets/background-image.png';
+import { useNavigate } from 'react-router-dom';
 
 
 const DepartureForm = () => {
     const dispatch = useDispatch();
+    const navigate =useNavigate();
     const passengersData = useSelector((state) => state.passengers);
-    // console.log("=========>", passengersData)
+     // console.log("=========>", passengersData)
 
     const [showFormOptions, setshowFormOptions] = useState(false);
     const [showFormCards, setshowFormCards] = useState(false);
@@ -57,20 +59,30 @@ const DepartureForm = () => {
     };
 
     const handlePassengersChange = (event) => {
-        const selectedValue = event.target.value;
     };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = () => { 
         const formData = {
-            selectedFormOption,
-            selectedToOption,
-            selectedDate,
-            passengersData
-        };
-        console.log("Form submitted with data:", formData);
-        dispatch(userTripDetails(formData));
+        selectedFormOption,
+        selectedToOption,
+        selectedDate,
+        passengersData
     };
+    console.log("Form submitted with data:", formData);
+    dispatch(setTripDetails(formData));
+    navigate('/TicketReview')
+      };
+
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     const formData = {
+    //         selectedFormOption,
+    //         selectedToOption,
+    //         selectedDate,
+    //         passengersData
+    //     };
+    //     console.log("Form submitted with data:", formData);
+    //     dispatch(userTripDetails(formData));
+    // };
 
     const handleClickOutside = (event) => {
         if (passengersRef.current && !passengersRef.current.contains(event.target)) {
@@ -90,9 +102,11 @@ const DepartureForm = () => {
     );
 
     return (
-        <div className='Depature-head' style={{   backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',  position: 'relative',
-        top: "0px" }}>
+        <div className='Depature-head' style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: 'cover', position: 'relative',
+            top: "0px"
+        }}>
             <Typography variant="h5" style={{ maxWidth: '70%', margin: '13px auto 25px', fontFamily: 'monospace', textAlign: 'center' }}>
                 Book Domestic and International Flight Tickets
             </Typography>
@@ -162,12 +176,16 @@ const DepartureForm = () => {
                                 <Passengers handlePassengersChange={handlePassengersChange} />
                             </div>
                         ) : (
-                            <Button variant="outlined" color="primary" onClick={handleAddPassengers} >
+                            <Button variant="outlined" sx={{ border: '2px solid #ada7a7c2' }} onClick={handleAddPassengers} >
                                 {`${passengersData.adults} Adults • ${passengersData.children} Children • ${passengersData.infants} Infants`}
-                            </Button>
+                                <KeyboardArrowDownIcon sx={{ color: 'black', fontSize: '35px' }} />  </Button>
                         )}
-
-                       
+                        <Button variant="contained" type="submit" sx={{
+                            backgroundColor: '#e2662e', width: '230px', height: '60px',
+                            position: 'absolute', left: '500px', top: '340px', zIndex: '10px', borderRadius: '50px', fontSize: '20px', fontWeight: 'bold'
+                        }}>
+                            SEARCH FLIGHTS
+                        </Button>
                     </form>
                 </CardContent>
                 <CardContent style={{
@@ -186,48 +204,46 @@ const DepartureForm = () => {
                     </div>
                     <div className="persons" style={{
                         width: '100%', backgroundColor: 'white',
-                        border: '1px solid rgb(120 120 120 / 19%) ', height: '81px',cursor:'pointer'
+                        border: '1px solid rgb(120 120 120 / 19%) ', height: '81px', cursor: 'pointer'
                     }}>
-                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px','& .MuiSvgIcon-root': { fontSize: 32,color:'blue' } }} />
-                       <span style={{position:'relative',top:'20px',left:'24px', fontSize: '22px'}}>
-                         Student</span>
-                         <p style={{position:'relative',left:'47px',bottom:'13px',fontSize:'17px',color:'#00000063'}}>
+                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px', '& .MuiSvgIcon-root': { fontSize: 32, color: 'blue' } }} />
+                        <span style={{ position: 'relative', top: '20px', left: '24px', fontSize: '22px' }}>
+                            Student</span>
+                        <p style={{ position: 'relative', left: '47px', bottom: '13px', fontSize: '17px', color: '#00000063' }}>
                             Extra Baggage</p>
-                        </div>
+                    </div>
                     <div className="persons" style={{
                         width: '100%', backgroundColor: 'white',
-                        border: '1px solid rgb(120 120 120 / 19%)', height: '81px',cursor:'pointer'
+                        border: '1px solid rgb(120 120 120 / 19%)', height: '81px', cursor: 'pointer'
                     }}>
-                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px' ,'& .MuiSvgIcon-root': { fontSize: 32,color:'blue' }}} />
-                        <span style={{position:'relative',top:'20px',left:'24px', fontSize: '22px'}}>
-                        Senior Citizen</span>
-                         <p style={{position:'relative',left:'47px',bottom:'13px',fontSize:'17px',color:'#00000063'}}>
-                         Exclusive Discounts</p>
-                        </div>
+                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px', '& .MuiSvgIcon-root': { fontSize: 32, color: 'blue' } }} />
+                        <span style={{ position: 'relative', top: '20px', left: '24px', fontSize: '22px' }}>
+                            Senior Citizen</span>
+                        <p style={{ position: 'relative', left: '47px', bottom: '13px', fontSize: '17px', color: '#00000063' }}>
+                            Exclusive Discounts</p>
+                    </div>
                     <div className="persons" style={{
                         width: '100%', backgroundColor: 'white',
-                        border: '1px solid rgb(120 120 120 / 19%)', height: '81px',cursor:'pointer'
+                        border: '1px solid rgb(120 120 120 / 19%)', height: '81px', cursor: 'pointer'
                     }}>
-                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px' ,'& .MuiSvgIcon-root': { fontSize: 32,color:'blue' }}} />
-                        <span style={{position:'relative',top:'20px',left:'24px', fontSize: '22px'}}>
-                        Armed Forces</span>
-                         <p style={{position:'relative',left:'47px',bottom:'13px',fontSize:'17px',color:'#00000063'}}>
-                         Exclusive Discounts</p> </div>
-                    <div className="persons" 
-                    style={{ width: '100%', backgroundColor: 'white', 
-                    border: '1px solid rgb(120 120 120 / 19%)', height: '81px',cursor:'pointer' }}>
-                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px','& .MuiSvgIcon-root': { fontSize: 32,color:'blue' } }} />
-                        <span style={{position:'relative',top:'20px',left:'24px', fontSize: '22px'}}>
-                        Doctors & Nurses</span>
-                         <p style={{position:'relative',left:'47px',bottom:'13px',fontSize:'17px',color:'#00000063'}}>
-                         Exclusive Discounts</p> </div>
+                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px', '& .MuiSvgIcon-root': { fontSize: 32, color: 'blue' } }} />
+                        <span style={{ position: 'relative', top: '20px', left: '24px', fontSize: '22px' }}>
+                            Armed Forces</span>
+                        <p style={{ position: 'relative', left: '47px', bottom: '13px', fontSize: '17px', color: '#00000063' }}>
+                            Exclusive Discounts</p> </div>
+                    <div className="persons"
+                        style={{
+                            width: '100%', backgroundColor: 'white',
+                            border: '1px solid rgb(120 120 120 / 19%)', height: '81px', cursor: 'pointer'
+                        }}>
+                        <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px', '& .MuiSvgIcon-root': { fontSize: 32, color: 'blue' } }} />
+                        <span style={{ position: 'relative', top: '20px', left: '24px', fontSize: '22px' }}>
+                            Doctors & Nurses</span>
+                        <p style={{ position: 'relative', left: '47px', bottom: '13px', fontSize: '17px', color: '#00000063' }}>
+                            Exclusive Discounts</p> </div>
                 </CardContent>
             </Card>
 
-            <Button variant="contained" type="submit" sx={{backgroundColor:'#e2662e',width:'200px',
-             position: 'absolute', left: '640px', bottom: '-10px',zIndex:'10' ,borderRadius:'23px'}}>
-                            SEARCH FLIGHTS
-                        </Button>
         </div>
     );
 };
