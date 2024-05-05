@@ -12,9 +12,9 @@ import { useNavigate } from 'react-router-dom';
 
 const DepartureForm = () => {
     const dispatch = useDispatch();
-    const navigate =useNavigate();
+    const navigate = useNavigate();
     const passengersData = useSelector((state) => state.passengers);
-     // console.log("=========>", passengersData)
+    // console.log("=========>", passengersData)
 
     const [showFormOptions, setshowFormOptions] = useState(false);
     const [showFormCards, setshowFormCards] = useState(false);
@@ -25,6 +25,7 @@ const DepartureForm = () => {
     const [selectedToOption, setselectedToOption] = useState('');
     const [searchValue, setSearchValue] = useState('');
     const [showPassengers, setShowPassengers] = useState(false);
+    const [showContent, setShowContent] = React.useState(false);
     const passengersRef = useRef(null);
 
     const handleFromClick = () => {
@@ -60,17 +61,17 @@ const DepartureForm = () => {
 
     const handlePassengersChange = (event) => {
     };
-    const handleSubmit = () => { 
+    const handleSubmit = () => {
         const formData = {
-        selectedFormOption,
-        selectedToOption,
-        selectedDate,
-        passengersData
+            selectedFormOption,
+            selectedToOption,
+            selectedDate,
+            passengersData
+        };
+        console.log("Form submitted with data:", formData);
+        dispatch(setTripDetails(formData));
+        navigate('/TicketReview')
     };
-    console.log("Form submitted with data:", formData);
-    dispatch(setTripDetails(formData));
-    navigate('/TicketReview')
-      };
 
     // const handleSubmit = (event) => {
     //     event.preventDefault();
@@ -131,13 +132,13 @@ const DepartureForm = () => {
                                 label="From"
                                 variant="outlined"
                                 onFocus={handleFromClick}
-                                onBlur={() => setTimeout(() => setshowFormOptions(false), 200)}
+                                 onBlur={() => setTimeout(() => setshowFormOptions(false), 200)}
                                 value={selectedFormOption}
                                 onChange={handleSearchChange}
                             />
                             <SwapHorizIcon style={{ position: 'absolute', right: '-37px', cursor: 'pointer', fontSize: '2.8rem', color: '#aab' }} />
                             {showFormOptions && (
-                                <div style={{ position: 'absolute', top: '100%', left: 0, width: '10rem', zIndex: 1, backgroundColor: '#aaa', border: '3px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                                <div style={{ position: 'absolute', top: '56%', left: 0, width: '10rem', zIndex: 2, backgroundColor: '#aaa', border: '3px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                                     {filteredOptions.map(option => (
                                         <div key={option} onClick={() => handleFormOptionSelect(option)} style={{ padding: '8px', cursor: 'pointer', borderBottom: '1px solid #ccc' }}>
                                             {option}
@@ -154,7 +155,7 @@ const DepartureForm = () => {
                                 onChange={handleSearchChange}
                             />
                             {showToOptions && (
-                                <div style={{ position: 'absolute', top: '100%', left: 0, width: '100%', zIndex: 1, backgroundColor: '#aaa', border: '2px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                                <div style={{ position: 'absolute', top: '56%', left: 0, width: '100%', zIndex: 2, backgroundColor: '#aaa', border: '2px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                                     {filteredOptions.map(option => (
                                         <div key={option} onClick={() => handleToOptionSelect(option)} style={{ padding: '8px', cursor: 'pointer', borderBottom: '1px solid #ccc' }}>
                                             {option}
@@ -204,18 +205,37 @@ const DepartureForm = () => {
                     </div>
                     <div className="persons" style={{
                         width: '100%', backgroundColor: 'white',
-                        border: '1px solid rgb(120 120 120 / 19%) ', height: '81px', cursor: 'pointer'
-                    }}>
+                        border: '1px solid rgb(120 120 120 / 19%) ', height: '81px', cursor: 'pointer',
+                        position: 'relative', zIndex: 1,
+                    }}
+                        onMouseEnter={() => setShowContent(true)} 
+                        onMouseLeave={() => setShowContent(false)}>
                         <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px', '& .MuiSvgIcon-root': { fontSize: 32, color: 'blue' } }} />
                         <span style={{ position: 'relative', top: '20px', left: '24px', fontSize: '22px' }}>
                             Student</span>
                         <p style={{ position: 'relative', left: '47px', bottom: '13px', fontSize: '17px', color: '#00000063' }}>
                             Extra Baggage</p>
+                        {showContent && (
+                            <div
+                                style={{
+                                    position: 'absolute',width: '100%',backgroundColor: 'rgb(72 70 70',borderRadius:'10px',
+                                  padding: '10px',zIndex:'11',color:'white '
+                                }}
+                            >
+                                <p>
+                                    Only students above 12 years of age are eligible for special fares and/or additional baggage allowances. 
+                                    Carrying valid student ID cards and student visas (where applicable) is mandatory, else the passenger 
+                                    may be denied boarding or asked to pay for extra baggage.
+                                </p>
+                            </div>
+                        )}
                     </div>
                     <div className="persons" style={{
                         width: '100%', backgroundColor: 'white',
                         border: '1px solid rgb(120 120 120 / 19%)', height: '81px', cursor: 'pointer'
-                    }}>
+                    }}
+                        onMouseEnter={() => setShowContent(true)}
+                        onMouseLeave={() => setShowContent(false)}  >
                         <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px', '& .MuiSvgIcon-root': { fontSize: 32, color: 'blue' } }} />
                         <span style={{ position: 'relative', top: '20px', left: '24px', fontSize: '22px' }}>
                             Senior Citizen</span>
