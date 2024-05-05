@@ -233,9 +233,7 @@ const DepartureForm = () => {
                     <div className="persons" style={{
                         width: '100%', backgroundColor: 'white',
                         border: '1px solid rgb(120 120 120 / 19%)', height: '81px', cursor: 'pointer'
-                    }}
-                        onMouseEnter={() => setShowContent(true)}
-                        onMouseLeave={() => setShowContent(false)}  >
+                    }}>
                         <Checkbox sx={{ width: '20px', height: '40px', position: 'relative', top: '18px', left: '20px', '& .MuiSvgIcon-root': { fontSize: 32, color: 'blue' } }} />
                         <span style={{ position: 'relative', top: '20px', left: '24px', fontSize: '22px' }}>
                             Senior Citizen</span>
