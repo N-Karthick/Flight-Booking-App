@@ -4,7 +4,7 @@ import React from 'react';
 
 const BaggageDetails = () => {
   return (
-    <Card sx={{ position: 'absolute', top: '130%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '5', width: '80%', maxWidth: '600px' }}>
+    <Card sx={{ position: 'absolute', top: '140%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '5', width: '80%', maxWidth: '600px' }}>
     <h2 style={{marginLeft:'40px'}}> Baggage Details</h2>
    {/* <h2 style={{margin:'0px',position:'relative',top:'-36px',left:'48rem',cursor:'pointer'}}><CloseIcon/></h2> */}
     <TableContainer component={Paper} style={{backgroundColor:'tomato'}}>
