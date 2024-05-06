@@ -106,7 +106,7 @@ const handleClose = () => {
           position: 'absolute', top: '12rem', height: '22rem', width: '18rem', left: '67rem',
           backgroundColor: 'white', boxShadow: '1px 1px 0px 2px', borderRadius: '7px'
         }}>
-
+h
         </CardContent>
         {/*---------------- cancel policy ----------------------*/}
     <Cancellation/>
