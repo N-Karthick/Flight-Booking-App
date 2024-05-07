@@ -7,9 +7,11 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import LuggageIcon from '@mui/icons-material/Luggage';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import RemoveIcon from '@mui/icons-material/Remove';
-import BaggageDetails from '../Home/Depature/BaggageDetails';
+import BaggageDetails from './TicketComponents/BaggageDetails';
 import CloseIcon from '@mui/icons-material/Close';
-import Cancellation from '../Home/Depature/Cancellation';
+import Cancellation from './TicketComponents/Cancellation';
+import ImportantInfo from './TicketComponents/ImportantInfo';
+import PinAndState from './TicketComponents/PinAndState';
 
 const TicketReview = () => {
   const SelectedTripDetails = useSelector((state) => state.SelectedTripDetails);
@@ -111,6 +113,9 @@ h
         {/*---------------- cancel policy ----------------------*/}
     <Cancellation/>
 
+   <ImportantInfo/>
+
+   <PinAndState/>
       </Card>
 
     </div>

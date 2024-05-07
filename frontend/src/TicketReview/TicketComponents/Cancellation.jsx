@@ -39,9 +39,9 @@ const Cancellation = () => {
 
 
         </CardContent>
-        <CardContent sx={{backgroundColor:'whitesmoke'}}>
+        <CardContent >
           <span style={{
-            display: 'flex', justifyContent: 'left', position: 'absolute', marginTop: '80px', top: '52rem', height: cardHeight, width: '56rem', left: '6rem',
+            display: 'flex', justifyContent: 'left', position: 'absolute', marginTop: '80px', top: '50rem', height: cardHeight, width: '56rem', left: '6rem',
             backgroundColor: 'white', boxShadow: '-1px 0px 3px 0.5px', borderRadius: '7px', zIndex: '1', margin: '0px'
           }}>
             <div style={{ display: 'flex', justifyContent: 'left', position: 'absolute', }}>
@@ -58,7 +58,6 @@ const Cancellation = () => {
             <span>
              { showUpArrow && <CamcellationCharges/>}
             </span>
-            
           </span>
 
         </CardContent>
