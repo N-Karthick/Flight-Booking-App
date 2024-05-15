@@ -13,7 +13,6 @@ const Cancellation = () => {
   const [showDownArrow, setShowDownArrow] = useState(true);
   const [cardHeight, setCardHeight] = useState('3rem');
   const [cardParentHeight, setCardParentHeight] = useState('18rem');
-  console.log("-->", SelectedTripDetails)
 
   const handleDownArrow = () => {
     setShowUpArrow(true);
