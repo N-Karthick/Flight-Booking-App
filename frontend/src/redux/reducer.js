@@ -3,6 +3,7 @@ import {
   TRIP_REQUEST, TRIP_SUCCESS, TRIP_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
   SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
+  LOGINRESPONSE_SUCCESS, LOGINRESPONSE_FAILURE,
   SET_PASSENGER_COUNT,SET_TRIP_DETAILS
 
 } from './actionTypes'
@@ -10,6 +11,7 @@ import {
 const initialState = {
   users: [],
   error: null,
+  loginResponse: [],
   userTripDetails: [],
   SelectedTripDetails:[],
   loginDetails: [],
@@ -47,16 +49,21 @@ const userTrip = (state = initialState, action) => {
     case SIGNUP_SUCCESS:
       return {
         ...state,
-        userDetails: action.payload,
-        payload : 'signin sussessful',
+        signinResponse: { message: action.payload.message },
         error: null,
-      }
+      };
     case LOGIN_SUCCESS:
       return {
         ...state,
         userLoginDetails: action.payload,
         error: null,
       }
+      case LOGINRESPONSE_SUCCESS:
+        return {
+          ...state,
+          loginResponse: { message: action.payload.message },
+          error: null,
+        };
     case SET_PASSENGER_COUNT:
       return {
         ...state,
@@ -77,10 +84,17 @@ const userTrip = (state = initialState, action) => {
         error: action.payload,
       };
       case SIGNUP_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-      };
+        return {
+          ...state,
+          signinResponse: null,
+          error: { message: action.payload.error },
+        }
+        case LOGINRESPONSE_FAILURE:
+          return {
+            ...state,
+            loginResponse: null,
+            error: { message: action.payload.error },
+          }
     default:
       return state;
   }

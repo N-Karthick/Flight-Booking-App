@@ -1,10 +1,13 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const authenticateToken = require('./auth/jwt');
 const app = express();
 const PORT = process.env.PORT;
 const bcrypt = require('bcrypt')
 var otpCache = undefined;
+const secretKey = 'qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM.,1234567890!@#$%^&*()'; 
 
 app.use(express.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
@@ -12,6 +15,7 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 const TripBookingSchema = require('./schema/userBookingSchema');
 const NewUserDetails = require('./schema/userSinupSchema');
 const generateOTP = require('./auth/otp');
+const { JsonWebTokenError } = require('jsonwebtoken');
 console.log("outside post");
 
 app.post('/tripdetails', async (req, res) => {
@@ -41,7 +45,7 @@ app.post('/getOTP', async (req, res) => {
         const User = await NewUserDetails.findOne({ email: email });
         if (User) {
             console.log('User with this email already exists');
-            res.json('email is already exist.. Do Login');
+            res.json({message:'email is already exist.. Do Login'});
         } else {
             const { otp, hashedOTP } = await generateOTP(email);
             otpCache = hashedOTP
@@ -60,7 +64,7 @@ app.post('/Signup', async (req, res) => {
     const User = await NewUserDetails.findOne({ email: email });
     if (User) {
         console.log('User with this email already exists');
-        res.json('email is already exist.. Do Login');
+        res.json({message: 'email is already exist.. Do Login'});
     }
     if (!name || !email || !phone) {
         res.json('Field is required.');
@@ -84,10 +88,32 @@ app.post('/Signup', async (req, res) => {
         })
         const result = await newUser.save();
         console.log("=============>", result)
-        res.status(201).json({ message: 'New User Added Successfully...', User: newUser })
+        res.status(201).json({ message: 'User Register Successfully...', User: newUser })
     }
 })
 
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const user = await NewUserDetails.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+  
+      const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+  
+      res.status(200).json({ message: 'Login successful', token,email });
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 connectDB()
 app.listen(PORT, () => {

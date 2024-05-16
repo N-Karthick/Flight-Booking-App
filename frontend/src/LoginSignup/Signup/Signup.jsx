@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOtp, userSigninDetails } from '../../redux/action';
 import { Alert } from '@mui/material';
@@ -8,9 +8,14 @@ import '../Signup/Signup.css';
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loading = useSelector((state) => state.loading);
+  const successMessage = useSelector((state) => state.signinResponse);
+const message = successMessage?.message ?? [];
   const error = useSelector((state) => state.error);
-
+  // console.log('---------->error',error)
+  // const failure = error?.message ?? [];
+  // console.log('---------->failure',failure)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -51,7 +56,12 @@ const Signup = () => {
           phone,
           password,
           otp,
-        })
+        }),
+        setShowSuccessMessage(true),
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+          navigate('/login')
+        }, 2000)
       );
     }
   };
@@ -91,32 +101,38 @@ const Signup = () => {
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="Enter the OTP"
               />
-              {error && <h1 className="error-message">{error}</h1>}
             </div>
           )}
 
-          {otpSent && <button type="submit" className="signup-submit" disabled={loading || !otpSent}>
-            {loading ? 'Signing Up...' : 'Sign Up'}
-          </button>}
+          {otpSent &&
+            <button type="submit" className="signup-submit" disabled={loading}>
+              {loading ? 'Signing Up...' : 'Sign Up'}
+            </button>
+          }
         </form>
         <div className="login-link">
-          <p>Already have an account? <Link to="/login">Login here</Link></p>
+          <p>Already have an account? <Link to="/">Login here</Link></p>
         </div>
-        {(showSuccessMessage && !showErrorAlert) && (
+        {showSuccessMessage  && (
           <Alert
             icon={<CheckIcon fontSize="inherit" />}
-            sx={{ zIndex: 10, display: 'flex', position: 'absolute', left: '80px', bottom: '520px' }}
-            severity="success"
-          >
-            OTP Sent to Email Successfully.
+            sx={{ zIndex: 10, display: 'flex', position: 'absolute', left: '80px', bottom: '563px' }}>
+          {message}
           </Alert>
         )}
+        {/* {( error && !showSuccessMessage) && (
+          <Alert
+            sx={{ zIndex: 10, display: 'flex', position: 'absolute', left: '80px', bottom: '420px' }}
+            severity="warning" >
+        {failure}
+          </Alert>
+        )} */}
+
         {showErrorAlert && (
           <Alert
             sx={{ zIndex: 10, display: 'flex', position: 'absolute', left: '80px', bottom: '420px' }}
-            severity="warning"
-          >
-            All Fields are Required
+            severity="warning">
+            All Fields Required...
           </Alert>
         )}
       </div>

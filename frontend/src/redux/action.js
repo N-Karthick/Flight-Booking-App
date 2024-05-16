@@ -6,7 +6,9 @@ import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
   SET_PASSENGER_COUNT,
   SET_TRIP_DETAILS,
-  SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE
+  SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE,
+  LOGINRESPONSE_SUCCESS,
+  LOGINRESPONSE_FAILURE
 } from './actionTypes'
 
 const axiosInstance = axios.create({
@@ -15,19 +17,29 @@ const axiosInstance = axios.create({
 
 const otpRequest = () => ({ type: OTP_REQUEST });
 const otpSuccess = (user) => ({ type: OTP_SUCCESS, payload: user });
-const otpFailure = (error) => ({ type: OTP_FAILURE, payload: error });
 
 const tripRequest = () => ({ type: TRIP_REQUEST });
 const tripSuccess = (tripdetails) => ({ type: TRIP_SUCCESS, payload: tripdetails });
 const tripFailure = (error) => ({ type: TRIP_FAILURE, payload: error });
 
-const SigupSuccess = (userDetails) => ({ type: SIGNUP_SUCCESS, payload: userDetails });
-const SigupFailure = (error) => ({ type: SIGNUP_FAILURE, payload: error.message });
+// const SigupSuccess = (userDetails) => ({ type: SIGNUP_SUCCESS, payload: userDetails });
+// const SigupFailure = (error) => ({ type: SIGNUP_FAILURE, payload: error.message });
 const SigupRequest = () => ({ type: SIGNUP_REQUEST });
 
 const loginSuccess = (loginDetails) => ({ type: LOGIN_SUCCESS, payload: loginDetails });
 const loginFailure = (error) => ({ type: LOGIN_FAILURE, payload: error });
 const loginRequest = () => ({ type: LOGIN_REQUEST });
+
+
+export const LoginResponseSuccess = (message) => ({
+  type: LOGINRESPONSE_SUCCESS,
+  payload: { message },
+});
+
+export const LoginResponseFailure = (error) => ({
+  type: LOGINRESPONSE_FAILURE,
+  payload: { error },
+});
 
 export const setPassengerCount = (passengerCounts) => ({
   type: SET_PASSENGER_COUNT,
@@ -37,6 +49,16 @@ export const setPassengerCount = (passengerCounts) => ({
 export const setTripDetails = (tripDetails) => ({
   type: SET_TRIP_DETAILS,
   payload: tripDetails,
+});
+
+export const SigupSuccess = (message) => ({
+  type: SIGNUP_SUCCESS,
+  payload: { message },
+});
+
+export const SigupFailure = (error) => ({
+  type: SIGNUP_FAILURE,
+  payload: { error },
 });
 
 export const userTripDetails = (credentials) => {
@@ -58,14 +80,22 @@ export const userLoginDetails = (credentials) => {
     dispatch(loginRequest());
     try {
       const response = await axiosInstance.post('/Login', credentials);
-
       dispatch(loginSuccess(response.data));
-      console.log("RES====>", response.data)
+      const message = response.data.message;
+      dispatch(LoginResponseSuccess(message));
+      // console.log("RES====>", response.data)
+      const { email, token } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('email', email);
     } catch (error) {
-      dispatch(loginFailure(error.message));
+      const errormessage = error.response.data.error;
+      dispatch(LoginResponseFailure(errormessage));
+      console.log('-----LoginResponseFailure---->', errormessage)
     }
   };
 };
+
+
 
 
 export const getOtp = (credentials) => {
@@ -74,8 +104,13 @@ export const getOtp = (credentials) => {
     try {
       const response = await axiosInstance.post('/getOTP', credentials);
       dispatch(otpSuccess(response.data));
+      const message = response.data.message;
+      console.log('Response from backend:', message);
+      dispatch(SigupSuccess(message));
     } catch (error) {
-      dispatch(otpFailure(error.message));
+      // dispatch(otpFailure(error.message));
+      dispatch(SigupFailure(error.response.data.error));
+      console.log('-----SigupResponseFailure---->', error.response.data.error)
     }
   };
 };
@@ -85,13 +120,12 @@ export const userSigninDetails = (userDetails) => {
     dispatch(SigupRequest());
     try {
       const response = await axiosInstance.post('/Signup', userDetails);
-      // const { token, userId } = response.data;
-      // localStorage.setItem('token', token);
-      // localStorage.setItem('userId', userId);
-      dispatch(SigupSuccess(response.data));
-      dispatch({ type: SIGNUP_SUCCESS, payload: 'Sign-up successful!' });
+      const message = response.data.message;
+      console.log('Response from backend:', message);
+      dispatch(SigupSuccess(message));
     } catch (error) {
-      dispatch(SigupFailure(error.message))
+      dispatch(SigupFailure(error.response.data.error));
+      console.log('-----SigupResponseFailure---->', error.response.data.error)
     }
   }
 }
