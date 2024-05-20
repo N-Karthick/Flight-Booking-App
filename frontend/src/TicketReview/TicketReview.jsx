@@ -50,7 +50,7 @@ const TicketReview = () => {
           backgroundColor: 'white', boxShadow: '0.4px 1px 1px 0px', borderRadius: '7px'
         }}>
 
-          <h3 style={{ fontSize: '23px', margin: '0px' }}> {SelectedTripDetails.selectedFormOption} -  {SelectedTripDetails.selectedToOption}<br />  </h3>
+          <h3 style={{ fontSize: '23px', margin: '0px',fontFamily:'Rubik' }}> {SelectedTripDetails.selectedFormOption} -  {SelectedTripDetails.selectedToOption}<br />  </h3>
           <h4 style={{ margin: '3px', color: '#0000008a ' }}>1 Stop | All departure/arrival times are in local time</h4>
 
           {/*---------------- top large bar ----------------------*/}
@@ -113,7 +113,11 @@ const TicketReview = () => {
           position: 'absolute', top: '12rem', height: '22rem', width: '18rem', left: '67rem',
           backgroundColor: 'white', boxShadow: '1px 1px 0px 2px', borderRadius: '7px'
         }}>
-          h
+          
+
+          <h2 style={{margin:'-10px 0px',fontFamily:'Rubik '}}>FARE SUMMARY</h2>
+<p style={{fontFamily:'Rubik'}}>{SelectedTripDetails.passengersData.adults} ADULTS {SelectedTripDetails.passengersData.children} CHILDREN {SelectedTripDetails.passengersData.infants} INFANTS   </p>
+
         </CardContent>
         {/*---------------- cancel policy ----------------------*/}
         <Cancellation />

@@ -12,30 +12,30 @@ const secretKey = 'qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM.,1234567
 app.use(express.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
-const TripBookingSchema = require('./schema/userBookingSchema');
+const TravellerBookingSchema = require('./schema/userTravellerBookingModel');
 const NewUserDetails = require('./schema/userSinupSchema');
 const generateOTP = require('./auth/otp');
 
-app.post('/tripdetails', async (req, res) => {
-    const { selectedFormOption, selectedToOption, selectedDate, passengersData } = req.body;
-    const newTrip = new TripBookingSchema({
-        from: selectedFormOption,
-        to: selectedToOption,
-        date: selectedDate,
-        passengers: passengersData
-    });
-    const result = await newTrip.save();
-    const storedResult = {
-        _id: result._id,
-        __v: result.__v,
-        from: selectedFormOption,
-        to: selectedToOption,
-        date: selectedDate,
-        passengersData: passengersData
-    };
-    console.log("Trip details",storedResult)
-    res.status(201).json({ message: 'Trip details stored successfully', trip: storedResult });
-});
+// app.post('/tripdetails', async (req, res) => {
+//     const { selectedFormOption, selectedToOption, selectedDate, passengersData } = req.body;
+//     const newTrip = new TripBookingSchema({
+//         from: selectedFormOption,
+//         to: selectedToOption,
+//         date: selectedDate,
+//         passengers: passengersData
+//     });
+//     const result = await newTrip.save();
+//     const storedResult = { 
+//         _id: result._id,
+//         __v: result.__v,
+//         from: selectedFormOption,
+//         to: selectedToOption,
+//         date: selectedDate,
+//         passengersData: passengersData
+//     };
+//     console.log("Trip details",storedResult)
+//     res.status(201).json({ message: 'Trip details stored successfully', trip: storedResult });
+// });
 
 app.post('/getOTP', async (req, res) => {
     const { email } = req.body;
@@ -114,8 +114,47 @@ app.post('/login', async (req, res) => {
   });
 
   app.post('/TravellerDetails',authenticateToken,async (req,res) => {
-    const details= req.body;
-console.log('------------------>',details)
+    const {
+        SelectedTripDetails: {
+          selectedFormOption,
+          selectedToOption,
+          selectedDate,
+          passengersData
+        },
+        PinAndStateDetails: {
+          billingAddress,
+          pinCode,
+          state
+        },
+        companyName,
+        registrationNo,
+        email,
+        mobile,
+        travellerDetails:{
+            adults,
+            children,
+            infants,
+        }
+      } = req.body;
+    const newTrip = new TravellerBookingSchema({
+        from: selectedFormOption,
+        to: selectedToOption,
+        date: selectedDate,
+        passengers: passengersData,
+        billingAddress: billingAddress,
+        pinCode: pinCode,
+        state: state,
+        companyName: companyName,
+        registrationNo:registrationNo,
+        email:email,
+        mobile: mobile,
+        adults:adults,
+        children:children,
+        infants:infants
+    });
+    const result = await newTrip.save();
+    console.log("Trip details",result)
+    res.status(201).json({ message: 'Trip details stored successfully',result });
 
   })
 
