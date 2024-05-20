@@ -4,16 +4,22 @@ import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
   SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
   LOGINRESPONSE_SUCCESS, LOGINRESPONSE_FAILURE,
-  SET_PASSENGER_COUNT,SET_TRIP_DETAILS
+  TRAVELLERDETAILS_SUCCESS, TRAVELLERDETAILS_FAILURE,
+
+  SET_PASSENGER_COUNT, SET_TRIP_DETAILS,
+  SET_PINANDSTATE
 
 } from './actionTypes'
 
 const initialState = {
-  users: [],
+  loading: false,
   error: null,
+  signinResponse: null,
+  users: [],
   loginResponse: [],
+
   userTripDetails: [],
-  SelectedTripDetails:[],
+  SelectedTripDetails: [],
   loginDetails: [],
   userDetails: [],
   passengers: {
@@ -21,8 +27,8 @@ const initialState = {
     children: 0,
     infants: 0,
   },
-  loading: false,
-  signinResponse: null,
+  PinAndStateDetails: [],
+  TravellerDetails: []
 };
 
 const userTrip = (state = initialState, action) => {
@@ -58,23 +64,32 @@ const userTrip = (state = initialState, action) => {
         userLoginDetails: action.payload,
         error: null,
       }
-      case LOGINRESPONSE_SUCCESS:
-        return {
-          ...state,
-          loginResponse: { message: action.payload.message },
-          error: null,
-        };
+    case LOGINRESPONSE_SUCCESS:
+      return {
+        ...state,
+        loginResponse: { message: action.payload.message },
+        error: null,
+      };
     case SET_PASSENGER_COUNT:
       return {
         ...state,
         passengers: action.payload,
-      } 
-      case SET_TRIP_DETAILS:
+      }
+    case SET_PINANDSTATE:
+      return {
+        ...state,
+        PinAndStateDetails: action.payload,
+      }
+    case SET_TRIP_DETAILS:
       return {
         ...state,
         SelectedTripDetails: action.payload,
       }
-
+      case TRAVELLERDETAILS_SUCCESS:
+        return{
+          ...state,
+         TravellerDetails : action.payload, 
+        }
 
     case OTP_FAILURE:
     case TRIP_FAILURE:
@@ -83,18 +98,20 @@ const userTrip = (state = initialState, action) => {
         ...state,
         error: action.payload,
       };
-      case SIGNUP_FAILURE:
-        return {
-          ...state,
-          signinResponse: null,
-          error: { message: action.payload.error },
-        }
-        case LOGINRESPONSE_FAILURE:
-          return {
-            ...state,
-            loginResponse: null,
-            error: { message: action.payload.error },
-          }
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        signinResponse: null,
+        error: { message: action.payload.error },
+      }
+    case LOGINRESPONSE_FAILURE:
+      case TRAVELLERDETAILS_FAILURE:
+      return {
+        ...state,
+        loginResponse: null,
+        TravellerDetails: null,
+        error: { message: action.payload.error },
+      }
     default:
       return state;
   }

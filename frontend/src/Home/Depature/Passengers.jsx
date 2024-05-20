@@ -8,11 +8,11 @@ import { setPassengerCount } from '../../redux/action';
 const Passengers = ({ handlePassengersChange }) => {
   const dispatch = useDispatch();
   const { adults, children, infants } = useSelector((state) => state.passengers);
-  
+
   const handleAdultsChange = (value) => {
     dispatch(setPassengerCount({ adults: value, children, infants }));
   };
-  
+
   const handleChildrenChange = (value) => {
     dispatch(setPassengerCount({ adults, children: value, infants }));
   };
@@ -20,7 +20,7 @@ const Passengers = ({ handlePassengersChange }) => {
   const handleInfantsChange = (value) => {
     dispatch(setPassengerCount({ adults, children, infants: value }));
   };
-  
+
   return (
     <div style={{ position: 'relative', right: '50px' }}>
       <Card sx={{ maxWidth: 745, position: 'relative', left: '90px', boxShadow: '1px 3px 8px 2px', zIndex: 3 }}>

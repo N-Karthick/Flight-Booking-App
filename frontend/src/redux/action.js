@@ -1,14 +1,16 @@
-
 import axios from 'axios';
 import {
   OTP_REQUEST, OTP_SUCCESS, OTP_FAILURE,
+  LOGINRESPONSE_SUCCESS, LOGINRESPONSE_FAILURE,
   TRIP_REQUEST, TRIP_SUCCESS, TRIP_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
+  SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE,
+  TRAVELLERDETAILS_SUCCESS, TRAVELLERDETAILS_FAILURE,
+
   SET_PASSENGER_COUNT,
   SET_TRIP_DETAILS,
-  SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNUP_FAILURE,
-  LOGINRESPONSE_SUCCESS,
-  LOGINRESPONSE_FAILURE
+
+  SET_PINANDSTATE
 } from './actionTypes'
 
 const axiosInstance = axios.create({
@@ -31,8 +33,14 @@ const loginFailure = (error) => ({ type: LOGIN_FAILURE, payload: error });
 const loginRequest = () => ({ type: LOGIN_REQUEST });
 
 
+
 export const LoginResponseSuccess = (message) => ({
   type: LOGINRESPONSE_SUCCESS,
+  payload: { message },
+});
+
+export const TravellerDetailsSuccess = (message) => ({
+  type: TRAVELLERDETAILS_SUCCESS,
   payload: { message },
 });
 
@@ -44,6 +52,11 @@ export const LoginResponseFailure = (error) => ({
 export const setPassengerCount = (passengerCounts) => ({
   type: SET_PASSENGER_COUNT,
   payload: passengerCounts,
+});
+
+export const setPinAndState = (PinAndStateDetails) => ({
+  type: SET_PINANDSTATE,
+  payload: PinAndStateDetails,
 });
 
 export const setTripDetails = (tripDetails) => ({
@@ -58,6 +71,11 @@ export const SigupSuccess = (message) => ({
 
 export const SigupFailure = (error) => ({
   type: SIGNUP_FAILURE,
+  payload: { error },
+});
+
+export const TravellerDetailsFailure = (error) => ({
+  type: TRAVELLERDETAILS_FAILURE,
   payload: { error },
 });
 
@@ -130,3 +148,26 @@ export const userSigninDetails = (userDetails) => {
   }
 }
 
+export const travellerDetail = (travellerDetails) => {
+  return async (dispatch) => {
+    // dispatch();
+    try {
+      const  token = localStorage.getItem('token') 
+      // localStorage.getItem('token', token);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      };
+console.log('---------->travellerDetails',travellerDetails)
+      const response = await axiosInstance.post('/TravellerDetails',travellerDetails,config);
+      console.log('================>travellerDetails response ',response)
+      const message = response.data.message;
+      console.log('Response from backend:', message);
+      dispatch(TravellerDetailsSuccess(message));
+    } catch (error) {
+      dispatch(TravellerDetailsFailure(error.response.data.error));
+      console.log('-----TravellerDetailsFailure---->', error.response.data.error)
+    }
+  }
+}

@@ -12,7 +12,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const loading = useSelector((state) => state.loading);
   const error = useSelector((state) => state.error) || {};
-  const successMessage = useSelector((state) => state.loginResponse.message);
+  const Message = useSelector((state) => state.loginResponse);
+  const successMessage = Message?.message ?? [];
   // console.log('---------->login res ',successMessage,error)
 
   const [showErrorAlert, setShowErrorAlert] = useState(false);

@@ -111,7 +111,7 @@ const message = successMessage?.message ?? [];
           }
         </form>
         <div className="login-link">
-          <p>Already have an account? <Link to="/">Login here</Link></p>
+          <p>Already have an account? <Link to="/login">Login here</Link></p>
         </div>
         {showSuccessMessage  && (
           <Alert

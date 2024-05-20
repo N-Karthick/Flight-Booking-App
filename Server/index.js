@@ -15,8 +15,6 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 const TripBookingSchema = require('./schema/userBookingSchema');
 const NewUserDetails = require('./schema/userSinupSchema');
 const generateOTP = require('./auth/otp');
-const { JsonWebTokenError } = require('jsonwebtoken');
-console.log("outside post");
 
 app.post('/tripdetails', async (req, res) => {
     const { selectedFormOption, selectedToOption, selectedDate, passengersData } = req.body;
@@ -114,6 +112,12 @@ app.post('/login', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+
+  app.post('/TravellerDetails',authenticateToken,async (req,res) => {
+    const details= req.body;
+console.log('------------------>',details)
+
+  })
 
 connectDB()
 app.listen(PORT, () => {

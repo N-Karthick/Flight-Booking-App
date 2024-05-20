@@ -5,7 +5,7 @@ const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization;
    console.log(token);
   if (!token) {
-    return res.status(401).json({ error:  'Unauthorized: Token missing' });
+    return res.status(401).json({ error:  'Session Time Out : Please Log In' });
   }
   const [, actualToken] = token.split(' ');
   try {
@@ -14,7 +14,7 @@ const authenticateToken = (req, res, next) => {
     next();
   } catch (error) {
     console.error('Error decoding token:', error);
-    res.status(401).json({ error: 'Unauthorized: Invalid token' });
+     res.status(401).json({ error:  'Session Time Out : Please Log In' });
   }
 };
 
