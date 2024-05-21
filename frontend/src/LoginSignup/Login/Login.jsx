@@ -32,7 +32,7 @@ const Login = () => {
       setShowSuccessMessage(true);
       setTimeout(() => {
         setShowSuccessMessage(false);
-        navigate('/flights')
+        navigate('/')
       }, 2000);
     }
   };

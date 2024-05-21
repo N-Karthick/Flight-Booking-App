@@ -30,8 +30,8 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <ul>
-          <li><NavLink exact to="/flights" className="activeHead">goibibo</NavLink></li>
-          <li><NavLink to="/flights" className="active flight"><FlightTakeoffOutlinedIcon sx={{ fontSize:'35px',marginRight:'10px'}}/>Flights</NavLink></li>
+          <li><NavLink exact to="/" className="activeHead">goibibo</NavLink></li>
+          <li><NavLink to="/" className="active flight"><FlightTakeoffOutlinedIcon sx={{ fontSize:'35px',marginRight:'10px'}}/>Flights</NavLink></li>
           <li><NavLink to="/hotels" className="active flight"><AddHomeWorkOutlinedIcon sx={{ fontSize:'35px',marginRight:'10px'}}/>Hotels</NavLink></li>
           <li><NavLink to="/trains" className="active flight"><TrainIcon sx={{ fontSize:'35px',marginRight:'10px'}} /> Trains</NavLink></li>
           <li><NavLink to="/cabs" className="active flight"><LocalTaxiIcon sx={{ fontSize:'35px',marginRight:'10px'}} />Cabs</NavLink></li>

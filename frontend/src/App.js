@@ -7,7 +7,7 @@ import TicketReview from './TicketReview/TicketReview';
 function App() {
   const route = createBrowserRouter([
       {
-        path:"/flights",
+        path:"/",
         element:<Home/>
       },{
         path:"/Login",
