@@ -2,6 +2,7 @@ const otpGenerator = require('otp-generator');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
+
 const path = require('path');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -24,6 +25,7 @@ async function generateOTP(email) {
     text: `Your OTP for login is ${otp}.`,
   };
 
+  
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending OTP:', error);
@@ -31,7 +33,6 @@ async function generateOTP(email) {
       console.log('Email sent:', info.response);
     }
   });
-
   return { otp, hashedOTP };
 }
 
